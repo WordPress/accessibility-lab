@@ -5,10 +5,20 @@
     "license": "GPL-2.0-or-later",
     "private": true,
     "engines": {
-        "node": ">=22.12",
-        "npm": ">=10.9"
+        "node": ">=24.21.0",
+        "npm": ">=11.19.0"
     },
-    "packageManager": "npm@11.17.0",
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": ">=24.21.0"
+        },
+        "packageManager": {
+            "name": "npm",
+            "version": ">=11.19.0",
+            "onFail": "error"
+        }
+    },
     "scripts": {
         "build": "wp-scripts build",
         "start": "wp-scripts start",

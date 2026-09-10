@@ -7,8 +7,8 @@ Welcome to the Accessibility Lab plugin! Here you'll find information on how to 
 ### Prerequisites
 
 - Composer
-- Node.js — the canonical version is pinned in `.nvmrc`; the toolchain requires 22.12 or newer
-- npm — pinned via the `packageManager` field in `package.json` (enable [Corepack](https://nodejs.org/api/corepack.html) with `corepack enable` so `npm install` produces a consistent `package-lock.json`)
+- Node.js — 24.21.0 or newer (the `24` line, matching WordPress core; the exact version is pinned in `.nvmrc`)
+- npm — 11.19.0 or newer (the `11` line; `engines` + `.npmrc` `engine-strict` enforce this, and `devEngines` in `package.json` is the source of truth)
 - Docker, only if you plan to use the bundled `wp-env` environment
 
 ### Local development setup
@@ -27,12 +27,13 @@ cd accessibility-lab
 
 2. **Install dependencies and build assets:**
 
-If you use `nvm`, run `nvm use` first to switch to the pinned Node version.
-On older Node, `npm run lint:js` fails with `ERR_REQUIRE_ESM`.
+If you use `nvm`, run `nvm install && nvm use` first to switch to the pinned
+Node version. `npm install` will refuse to run on an unsupported Node or npm
+(`engine-strict`).
 
 ```bash
-nvm use
-composer install && npm i && npm run build
+nvm install && nvm use
+composer install && npm ci && npm run build
 ```
 
 3. **Activate the plugin:**
