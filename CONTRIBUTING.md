@@ -7,7 +7,8 @@ Welcome to the Accessibility Lab plugin! Here you'll find information on how to 
 ### Prerequisites
 
 - Composer
-- Node.js — the version is pinned in `.nvmrc`; the toolchain requires 22.12 or newer
+- Node.js — the canonical version is pinned in `.nvmrc`; the toolchain requires 22.12 or newer
+- npm — pinned via the `packageManager` field in `package.json` (enable [Corepack](https://nodejs.org/api/corepack.html) with `corepack enable` so `npm install` produces a consistent `package-lock.json`)
 - Docker, only if you plan to use the bundled `wp-env` environment
 
 ### Local development setup
