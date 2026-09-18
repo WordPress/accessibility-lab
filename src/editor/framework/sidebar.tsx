@@ -27,19 +27,19 @@ function IssueRow( { issue }: { issue: Issue } ): JSX.Element {
 	const icon = issue.severity === 'error' ? close : caution;
 	return (
 		<li
-			className={ `validation-issue validation-issue--${ issue.severity }` }
+			className={ `validation-issue validation-issue-${ issue.severity }` }
 		>
 			<Button
 				variant="tertiary"
 				onClick={ onClick }
 				disabled={ ! issue.clientId }
-				className="validation-issue__button"
+				className="validation-issue-button"
 			>
 				<Icon icon={ icon } />
-				<span className="validation-issue__message">
+				<span className="validation-issue-message">
 					{ issue.message }
 				</span>
-				<span className="validation-issue__meta">
+				<span className="validation-issue-meta">
 					{ issue.scope === 'block' && issue.blockType }
 					{ issue.scope === 'meta' && issue.metaKey }
 					{ issue.scope === 'editor' &&

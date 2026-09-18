@@ -159,7 +159,7 @@ async function savePref(
 function buildPopover(): HTMLElement {
 	const cfg = config!;
 	const wrap = document.createElement( 'div' );
-	wrap.className = 'accessibility-lab-media-view-config__popover';
+	wrap.className = 'accessibility-lab-media-view-config-popover';
 	wrap.setAttribute( 'role', 'dialog' );
 	wrap.setAttribute( 'aria-modal', 'true' );
 	// Anchor the accessible name to the heading below so screen readers
@@ -172,7 +172,7 @@ function buildPopover(): HTMLElement {
 	wrap.tabIndex = -1;
 
 	const heading = document.createElement( 'h2' );
-	heading.className = 'accessibility-lab-media-view-config__title';
+	heading.className = 'accessibility-lab-media-view-config-title';
 	heading.id = headingId;
 	heading.textContent = cfg.i18n.popoverTitle;
 	wrap.appendChild( heading );
@@ -180,7 +180,7 @@ function buildPopover(): HTMLElement {
 	// Infinite scrolling toggle — only when saving takes effect.
 	if ( cfg.canToggleInfiniteScrolling ) {
 		const field = document.createElement( 'label' );
-		field.className = 'accessibility-lab-media-view-config__field';
+		field.className = 'accessibility-lab-media-view-config-field';
 		const cb = document.createElement( 'input' );
 		cb.type = 'checkbox';
 		cb.checked = cfg.infiniteScrolling;
@@ -208,14 +208,14 @@ function buildPopover(): HTMLElement {
 
 	// Thumbnail density.
 	const densityField = document.createElement( 'div' );
-	densityField.className = 'accessibility-lab-media-view-config__field';
+	densityField.className = 'accessibility-lab-media-view-config-field';
 	const densityLbl = document.createElement( 'span' );
-	densityLbl.className = 'accessibility-lab-media-view-config__field-label';
+	densityLbl.className = 'accessibility-lab-media-view-config-field-label';
 	densityLbl.textContent = cfg.i18n.density;
 	densityField.appendChild( densityLbl );
 
 	const densityRadios = document.createElement( 'div' );
-	densityRadios.className = 'accessibility-lab-media-view-config__radios';
+	densityRadios.className = 'accessibility-lab-media-view-config-radios';
 	cfg.densityOptions.forEach( ( d ) => {
 		const lbl = document.createElement( 'label' );
 		const input = document.createElement( 'input' );
@@ -240,7 +240,7 @@ function buildPopover(): HTMLElement {
 
 	// Always-show filenames.
 	const filenamesField = document.createElement( 'label' );
-	filenamesField.className = 'accessibility-lab-media-view-config__field';
+	filenamesField.className = 'accessibility-lab-media-view-config-field';
 	const filenamesCb = document.createElement( 'input' );
 	filenamesCb.type = 'checkbox';
 	filenamesCb.checked = cfg.showFilenames;
@@ -256,7 +256,7 @@ function buildPopover(): HTMLElement {
 	);
 	const filenamesDesc = document.createElement( 'p' );
 	filenamesDesc.className =
-		'accessibility-lab-media-view-config__field-description';
+		'accessibility-lab-media-view-config-field-description';
 	filenamesDesc.textContent = cfg.i18n.showFilenamesDescription;
 	filenamesField.appendChild( filenamesDesc );
 	wrap.appendChild( filenamesField );
@@ -267,10 +267,10 @@ function buildPopover(): HTMLElement {
 	// batch size without any visible pagination.
 	if ( ! cfg.infiniteScrolling ) {
 		const perPageField = document.createElement( 'label' );
-		perPageField.className = 'accessibility-lab-media-view-config__field';
+		perPageField.className = 'accessibility-lab-media-view-config-field';
 		const perPageLbl = document.createElement( 'span' );
 		perPageLbl.className =
-			'accessibility-lab-media-view-config__field-label';
+			'accessibility-lab-media-view-config-field-label';
 		perPageLbl.textContent = cfg.i18n.itemsPerPage;
 		perPageField.appendChild( perPageLbl );
 
@@ -393,7 +393,7 @@ function makeButton(): HTMLButtonElement {
 	// Don't inherit the .button class — the media toolbar's own buttons use
 	// different metrics and .button forces a 30px height that ends up
 	// misaligned. Style the toggle explicitly instead.
-	btn.className = 'accessibility-lab-media-view-config__toggle';
+	btn.className = 'accessibility-lab-media-view-config-toggle';
 	btn.setAttribute( 'aria-haspopup', 'dialog' );
 	btn.setAttribute( 'aria-expanded', 'false' );
 	btn.setAttribute( 'aria-label', cfg.i18n.buttonLabel );
@@ -503,7 +503,7 @@ document.addEventListener(
 			return;
 		}
 		const btn = target.closest< HTMLElement >(
-			'.accessibility-lab-media-view-config__toggle'
+			'.accessibility-lab-media-view-config-toggle'
 		);
 		if ( btn ) {
 			ev.preventDefault();
@@ -582,7 +582,7 @@ function bootModal(): void {
 		toolbars.forEach( ( bar ) => {
 			if (
 				bar.querySelector(
-					'.accessibility-lab-media-view-config__toggle'
+					'.accessibility-lab-media-view-config-toggle'
 				)
 			) {
 				return;
@@ -605,7 +605,7 @@ function bootGrid(): void {
 		if (
 			host &&
 			! host.querySelector(
-				'.accessibility-lab-media-view-config__toggle'
+				'.accessibility-lab-media-view-config-toggle'
 			)
 		) {
 			attach( host );

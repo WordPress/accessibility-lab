@@ -171,8 +171,8 @@ function ModuleRow( {
 		.join( ' ' );
 
 	const labelWithBadges = (
-		<span className="accessibility-lab-row__label">
-			<span className="accessibility-lab-row__name">{ module.name }</span>
+		<span className="accessibility-lab-row-label">
+			<span className="accessibility-lab-row-name">{ module.name }</span>
 			<ModuleBadges module={ module } />
 		</span>
 	);
@@ -188,7 +188,7 @@ function ModuleRow( {
 				onChange={ onChange }
 			/>
 			{ module.credits && (
-				<p className="accessibility-lab-row__credit">
+				<p className="accessibility-lab-row-credit">
 					{ creditsLine( module.credits ) }
 				</p>
 			) }
@@ -217,15 +217,15 @@ function Snackbars(): JSX.Element {
 function Toolbar(): JSX.Element {
 	return (
 		<header className="accessibility-lab-toolbar">
-			<div className="accessibility-lab-toolbar__title">
-				<span className="accessibility-lab-toolbar__icon">
+			<div className="accessibility-lab-toolbar-title">
+				<span className="accessibility-lab-toolbar-icon">
 					<UniversalAccessIcon />
 				</span>
 				<div className="accessibility-lab-toolbar__text">
-					<h1 className="accessibility-lab-toolbar__heading">
+					<h1 className="accessibility-lab-toolbar-heading">
 						{ __( 'Accessibility Lab', 'accessibility-lab' ) }
 					</h1>
-					<p className="accessibility-lab-toolbar__description">
+					<p className="accessibility-lab-toolbar-description">
 						{ __(
 							'Community plugin for accessibility features and experiments.',
 							'accessibility-lab'
@@ -233,7 +233,7 @@ function Toolbar(): JSX.Element {
 					</p>
 				</div>
 			</div>
-			<div className="accessibility-lab-toolbar__actions">
+			<div className="accessibility-lab-toolbar-actions">
 				<Button
 					variant="tertiary"
 					href="https://make.wordpress.org/accessibility/"
@@ -400,7 +400,7 @@ function SettingsApp(): JSX.Element {
 		return (
 			<div className="accessibility-lab-page">
 				<Toolbar />
-				<div className="accessibility-lab-page__inner">
+				<div className="accessibility-lab-page-inner">
 					<p role="status" aria-live="polite">
 						<Spinner />
 						<span className="screen-reader-text">
@@ -420,7 +420,7 @@ function SettingsApp(): JSX.Element {
 	return (
 		<div className="accessibility-lab-page">
 			<Toolbar />
-			<div className="accessibility-lab-page__inner">
+			<div className="accessibility-lab-page-inner">
 				<section className="accessibility-lab-section">
 					{ groups.map( ( { parent, dependents } ) => (
 						<div

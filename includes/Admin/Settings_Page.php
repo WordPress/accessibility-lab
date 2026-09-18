@@ -9,6 +9,11 @@ declare( strict_types = 1 );
 
 namespace AccessibilityLab\Admin;
 
+/**
+ * Class Settings_Page
+ *
+ * Handles the admin settings page for the Accessibility Lab plugin.
+ */
 final class Settings_Page {
 
 	private const SLUG = 'accessibility-lab';
