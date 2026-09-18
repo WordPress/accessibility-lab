@@ -3,7 +3,8 @@
  * by iterating the gallery's inner image blocks.
  */
 
-import { addFilter, applyFilters } from '@wordpress/hooks';
+import { addFilter } from '@wordpress/hooks';
+import { applyFilters } from '@wordpress/hooks';
 
 type GalleryAttributes = {
 	images?: Array< Record< string, unknown > >;
@@ -19,13 +20,7 @@ const CHECK_MAP: Record< string, string > = {
 addFilter(
 	'editor.validateBlock',
 	'accessibility-lab-core-blocks/gallery',
-	(
-		isValid: boolean,
-		blockType: string,
-		attributes: GalleryAttributes,
-		checkName: string,
-		rule: unknown
-	) => {
+	( isValid: boolean, blockType: string, attributes: GalleryAttributes, checkName: string, rule: unknown ) => {
 		if ( blockType !== 'core/gallery' ) {
 			return isValid;
 		}

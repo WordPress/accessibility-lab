@@ -58,9 +58,7 @@ interface WpMediaLibrary {
 }
 
 interface WpMediaFrame {
-	state?: () =>
-		| { get?: ( k: string ) => WpMediaLibrary | undefined }
-		| undefined;
+	state?: () => { get?: ( k: string ) => WpMediaLibrary | undefined } | undefined;
 	views?: {
 		all?: () => Array< { $el?: JQuery } >;
 	};
@@ -108,12 +106,8 @@ function primeWpMediaDefaults(): void {
 
 function densityLabel( d: Density ): string {
 	const { i18n } = config!;
-	if ( d === 'compact' ) {
-		return i18n.densityCompact;
-	}
-	if ( d === 'spacious' ) {
-		return i18n.densitySpacious;
-	}
+	if ( d === 'compact' ) return i18n.densityCompact;
+	if ( d === 'spacious' ) return i18n.densitySpacious;
 	return i18n.densityComfortable;
 }
 
@@ -125,13 +119,8 @@ function speak( msg: string ): void {
 	}
 }
 
-async function savePref(
-	key: string,
-	value: string | number | boolean
-): Promise< boolean > {
-	if ( ! config ) {
-		return false;
-	}
+async function savePref( key: string, value: string | number | boolean ): Promise< boolean > {
+	if ( ! config ) return false;
 	const body = new URLSearchParams();
 	body.set( 'action', 'accessibility_lab_save_media_view_pref' );
 	body.set( 'nonce', config.nonce );
@@ -146,9 +135,7 @@ async function savePref(
 			credentials: 'same-origin',
 			body,
 		} );
-		if ( ! resp.ok ) {
-			throw new Error( 'HTTP ' + resp.status );
-		}
+		if ( ! resp.ok ) throw new Error( 'HTTP ' + resp.status );
 		const json = ( await resp.json() ) as { success?: boolean };
 		return Boolean( json.success );
 	} catch {
@@ -159,7 +146,7 @@ async function savePref(
 function buildPopover(): HTMLElement {
 	const cfg = config!;
 	const wrap = document.createElement( 'div' );
-	wrap.className = 'accessibility-lab-media-view-config-popover';
+	wrap.className = 'accessibility-lab-media-view-config__popover';
 	wrap.setAttribute( 'role', 'dialog' );
 	wrap.setAttribute( 'aria-modal', 'true' );
 	// Anchor the accessible name to the heading below so screen readers
@@ -172,7 +159,7 @@ function buildPopover(): HTMLElement {
 	wrap.tabIndex = -1;
 
 	const heading = document.createElement( 'h2' );
-	heading.className = 'accessibility-lab-media-view-config-title';
+	heading.className = 'accessibility-lab-media-view-config__title';
 	heading.id = headingId;
 	heading.textContent = cfg.i18n.popoverTitle;
 	wrap.appendChild( heading );
@@ -180,19 +167,15 @@ function buildPopover(): HTMLElement {
 	// Infinite scrolling toggle — only when saving takes effect.
 	if ( cfg.canToggleInfiniteScrolling ) {
 		const field = document.createElement( 'label' );
-		field.className = 'accessibility-lab-media-view-config-field';
+		field.className = 'accessibility-lab-media-view-config__field';
 		const cb = document.createElement( 'input' );
 		cb.type = 'checkbox';
 		cb.checked = cfg.infiniteScrolling;
 		cb.addEventListener( 'change', async () => {
 			const ok = await savePref( 'infinite_scrolling', cb.checked );
-			speak(
-				ok ? cfg.i18n.preferenceSaved : cfg.i18n.preferenceSaveFailed
-			);
+			speak( ok ? cfg.i18n.preferenceSaved : cfg.i18n.preferenceSaveFailed );
 			cfg.infiniteScrolling = cb.checked;
-			document.body.dataset.mediaInfiniteScrolling = cb.checked
-				? 'on'
-				: 'off';
+			document.body.dataset.mediaInfiniteScrolling = cb.checked ? 'on' : 'off';
 			applyInfiniteScrolling( cb.checked );
 			// The items-per-page field is only rendered when infinite scroll
 			// is off. Rebuild the popover so that control appears/disappears
@@ -200,22 +183,20 @@ function buildPopover(): HTMLElement {
 			rebuildOpenPopover();
 		} );
 		field.appendChild( cb );
-		field.appendChild(
-			document.createTextNode( ' ' + cfg.i18n.infiniteScrolling )
-		);
+		field.appendChild( document.createTextNode( ' ' + cfg.i18n.infiniteScrolling ) );
 		wrap.appendChild( field );
 	}
 
 	// Thumbnail density.
 	const densityField = document.createElement( 'div' );
-	densityField.className = 'accessibility-lab-media-view-config-field';
+	densityField.className = 'accessibility-lab-media-view-config__field';
 	const densityLbl = document.createElement( 'span' );
-	densityLbl.className = 'accessibility-lab-media-view-config-field-label';
+	densityLbl.className = 'accessibility-lab-media-view-config__field-label';
 	densityLbl.textContent = cfg.i18n.density;
 	densityField.appendChild( densityLbl );
 
 	const densityRadios = document.createElement( 'div' );
-	densityRadios.className = 'accessibility-lab-media-view-config-radios';
+	densityRadios.className = 'accessibility-lab-media-view-config__radios';
 	cfg.densityOptions.forEach( ( d ) => {
 		const lbl = document.createElement( 'label' );
 		const input = document.createElement( 'input' );
@@ -225,9 +206,7 @@ function buildPopover(): HTMLElement {
 		input.checked = cfg.density === d;
 		input.addEventListener( 'change', async () => {
 			const ok = await savePref( 'density', d );
-			speak(
-				ok ? cfg.i18n.preferenceSaved : cfg.i18n.preferenceSaveFailed
-			);
+			speak( ok ? cfg.i18n.preferenceSaved : cfg.i18n.preferenceSaveFailed );
 			cfg.density = d;
 			applyDensity( d );
 		} );
@@ -240,7 +219,7 @@ function buildPopover(): HTMLElement {
 
 	// Always-show filenames.
 	const filenamesField = document.createElement( 'label' );
-	filenamesField.className = 'accessibility-lab-media-view-config-field';
+	filenamesField.className = 'accessibility-lab-media-view-config__field';
 	const filenamesCb = document.createElement( 'input' );
 	filenamesCb.type = 'checkbox';
 	filenamesCb.checked = cfg.showFilenames;
@@ -251,12 +230,9 @@ function buildPopover(): HTMLElement {
 		applyFilenames( filenamesCb.checked );
 	} );
 	filenamesField.appendChild( filenamesCb );
-	filenamesField.appendChild(
-		document.createTextNode( ' ' + cfg.i18n.showFilenames )
-	);
+	filenamesField.appendChild( document.createTextNode( ' ' + cfg.i18n.showFilenames ) );
 	const filenamesDesc = document.createElement( 'p' );
-	filenamesDesc.className =
-		'accessibility-lab-media-view-config-field-description';
+	filenamesDesc.className = 'accessibility-lab-media-view-config__field-description';
 	filenamesDesc.textContent = cfg.i18n.showFilenamesDescription;
 	filenamesField.appendChild( filenamesDesc );
 	wrap.appendChild( filenamesField );
@@ -267,10 +243,9 @@ function buildPopover(): HTMLElement {
 	// batch size without any visible pagination.
 	if ( ! cfg.infiniteScrolling ) {
 		const perPageField = document.createElement( 'label' );
-		perPageField.className = 'accessibility-lab-media-view-config-field';
+		perPageField.className = 'accessibility-lab-media-view-config__field';
 		const perPageLbl = document.createElement( 'span' );
-		perPageLbl.className =
-			'accessibility-lab-media-view-config-field-label';
+		perPageLbl.className = 'accessibility-lab-media-view-config__field-label';
 		perPageLbl.textContent = cfg.i18n.itemsPerPage;
 		perPageField.appendChild( perPageLbl );
 
@@ -285,9 +260,7 @@ function buildPopover(): HTMLElement {
 		select.addEventListener( 'change', async () => {
 			const n = Number( select.value );
 			const ok = await savePref( 'items_per_page', n );
-			speak(
-				ok ? cfg.i18n.preferenceSaved : cfg.i18n.preferenceSaveFailed
-			);
+			speak( ok ? cfg.i18n.preferenceSaved : cfg.i18n.preferenceSaveFailed );
 			cfg.itemsPerPage = n;
 			applyItemsPerPage( n );
 		} );
@@ -334,13 +307,9 @@ function nearBottom(): boolean {
 
 function applyInfiniteScrolling( enabled: boolean ): void {
 	if ( enabled ) {
-		if ( scrollHandler ) {
-			return;
-		}
+		if ( scrollHandler ) return;
 		scrollHandler = () => {
-			if ( ! nearBottom() ) {
-				return;
-			}
+			if ( ! nearBottom() ) return;
 			const btn = findLoadMoreButton();
 			if ( btn && ! btn.disabled ) {
 				btn.click();
@@ -360,7 +329,6 @@ function applyInfiniteScrolling( enabled: boolean ): void {
  * `.more()` call fetches the right batch size. Since we always render in
  * Load-more mode, both the click handler and our scroll handler flow
  * through the same code path — mutating library.args is enough.
- * @param n
  */
 function applyItemsPerPage( n: number ): void {
 	const wp = window.wp;
@@ -368,15 +336,9 @@ function applyItemsPerPage( n: number ): void {
 		wp.media.model.Query.defaultArgs.posts_per_page = n;
 	}
 	const setOnLibrary = ( lib: WpMediaLibrary | undefined ): void => {
-		if ( ! lib ) {
-			return;
-		}
-		if ( lib.args ) {
-			lib.args.posts_per_page = n;
-		}
-		if ( lib.mirroring?.args ) {
-			lib.mirroring.args.posts_per_page = n;
-		}
+		if ( ! lib ) return;
+		if ( lib.args ) lib.args.posts_per_page = n;
+		if ( lib.mirroring?.args ) lib.mirroring.args.posts_per_page = n;
 		lib.props?.set?.( 'posts_per_page', n );
 	};
 	setOnLibrary( wp?.media?.frame?.state?.()?.get?.( 'library' ) );
@@ -393,7 +355,7 @@ function makeButton(): HTMLButtonElement {
 	// Don't inherit the .button class — the media toolbar's own buttons use
 	// different metrics and .button forces a 30px height that ends up
 	// misaligned. Style the toggle explicitly instead.
-	btn.className = 'accessibility-lab-media-view-config-toggle';
+	btn.className = 'accessibility-lab-media-view-config__toggle';
 	btn.setAttribute( 'aria-haspopup', 'dialog' );
 	btn.setAttribute( 'aria-expanded', 'false' );
 	btn.setAttribute( 'aria-label', cfg.i18n.buttonLabel );
@@ -430,20 +392,16 @@ function closePopover(): void {
  * Preserves the trigger button, avoids stealing focus from body.
  */
 function rebuildOpenPopover(): void {
-	if ( ! openPopover || ! openTriggerBtn ) {
-		return;
-	}
+	if ( ! openPopover || ! openTriggerBtn ) return;
 	const btn = openTriggerBtn;
 	// Remember which control was focused so we can restore focus back to
 	// the semantically-equivalent element in the rebuilt DOM.
-	const activeName = (
-		document.activeElement as HTMLElement | null
-	 )?.getAttribute?.( 'name' );
+	const activeName = ( document.activeElement as HTMLElement | null )?.getAttribute?.( 'name' );
 	openFor( btn );
 	if ( activeName && openPopover ) {
-		const target = (
-			openPopover as HTMLElement
-		 ).querySelector< HTMLElement >( `[name="${ activeName }"]` );
+		const target = ( openPopover as HTMLElement ).querySelector< HTMLElement >(
+			`[name="${ activeName }"]`
+		);
 		target?.focus();
 	}
 }
@@ -503,7 +461,7 @@ document.addEventListener(
 			return;
 		}
 		const btn = target.closest< HTMLElement >(
-			'.accessibility-lab-media-view-config-toggle'
+			'.accessibility-lab-media-view-config__toggle'
 		);
 		if ( btn ) {
 			ev.preventDefault();
@@ -561,9 +519,7 @@ document.addEventListener( 'keydown', ( ev ) => {
 
 function attach( host: HTMLElement ): void {
 	host.appendChild( makeButton() );
-	document.body.dataset.mediaInfiniteScrolling = config!.infiniteScrolling
-		? 'on'
-		: 'off';
+	document.body.dataset.mediaInfiniteScrolling = config!.infiniteScrolling ? 'on' : 'off';
 	applyDensity( config!.density );
 	applyFilenames( config!.showFilenames );
 	// eslint-disable-next-line no-console
@@ -580,11 +536,7 @@ function bootModal(): void {
 			'.media-frame .media-toolbar-primary'
 		);
 		toolbars.forEach( ( bar ) => {
-			if (
-				bar.querySelector(
-					'.accessibility-lab-media-view-config-toggle'
-				)
-			) {
+			if ( bar.querySelector( '.accessibility-lab-media-view-config__toggle' ) ) {
 				return;
 			}
 			attach( bar );
@@ -599,15 +551,9 @@ function bootModal(): void {
 function bootGrid(): void {
 	const tryAttach = () => {
 		const host =
-			document.querySelector< HTMLElement >(
-				'.wp-filter .search-form'
-			) ?? document.querySelector< HTMLElement >( '.wp-filter' );
-		if (
-			host &&
-			! host.querySelector(
-				'.accessibility-lab-media-view-config-toggle'
-			)
-		) {
+			document.querySelector< HTMLElement >( '.wp-filter .search-form' )
+			?? document.querySelector< HTMLElement >( '.wp-filter' );
+		if ( host && ! host.querySelector( '.accessibility-lab-media-view-config__toggle' ) ) {
 			attach( host );
 			return true;
 		}
