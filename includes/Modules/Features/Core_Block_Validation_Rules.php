@@ -68,7 +68,7 @@ final class Core_Block_Validation_Rules extends Abstract_Module {
 	/**
 	 * Returns the credits for the core block validation rules module.
 	 */
-	public function credits(): ?Credits {
+	public function credits(): Credits {
 		return new Credits(
 			author: 'Troy Chaplin',
 			source_plugin_slug: 'validation-api-core-blocks',
