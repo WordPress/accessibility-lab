@@ -108,7 +108,7 @@ export function App(): JSX.Element {
 							...row,
 							level,
 							has_override: level !== row.default_level,
-						}
+					  }
 					: row
 			)
 		);
