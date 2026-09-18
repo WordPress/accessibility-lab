@@ -16,6 +16,9 @@ namespace AccessibilityLab\Modules\Features\ValidationSettings;
 
 use AccessibilityLab\Modules\Experiments\BlockValidation\Check_Key;
 
+/**
+ * Level override handler for validation checks.
+ */
 final class Level_Override {
 
 	public const OPTION_KEY = 'validation_api_settings';
@@ -30,13 +33,18 @@ final class Level_Override {
 	 */
 	private ?array $overrides = null;
 
+	/**
+	 * Registers the level override filter with WordPress.
+	 */
 	public function register(): void {
 		add_filter( 'validation_api_check_level', array( $this, 'apply' ), 10, 2 );
 	}
 
 	/**
-	 * @param string               $level
-	 * @param array<string, mixed> $context
+	 * Applies the appropriate level override if one exists for the given check context.
+	 *
+	 * @param string               $level The current severity level.
+	 * @param array<string, mixed> $context The context of the validation check.
 	 */
 	public function apply( string $level, array $context ): string {
 		$overrides = $this->overrides();
@@ -52,6 +60,8 @@ final class Level_Override {
 	}
 
 	/**
+	 * Returns the cached array of level overrides.
+	 *
 	 * @return array<string, string>
 	 */
 	private function overrides(): array {

@@ -17,17 +17,31 @@ namespace AccessibilityLab\Modules\Features\ValidationSettings;
 use AccessibilityLab\Modules\Experiments\Block_Validation_Framework;
 use WP_Block_Type_Registry;
 
+/**
+ * Admin pages for the validation settings module.
+ */
 final class Admin_Pages {
 
 	public const SLUG = 'accessibility-lab-validation';
 
+	/**
+	 * The hook suffix for the validation settings admin page.
+	 *
+	 * @var string The hook suffix for the validation settings admin page.
+	 */
 	private string $page_hook = '';
 
+	/**
+	 * Registers the admin page hooks.
+	 */
 	public function register(): void {
 		add_action( 'admin_menu', array( $this, 'add_menu' ), 20 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 	}
 
+	/**
+	 * Adds the validation settings admin menu page.
+	 */
 	public function add_menu(): void {
 		if ( ! Block_Validation_Framework::shared_registry() ) {
 			return;
@@ -44,6 +58,9 @@ final class Admin_Pages {
 		);
 	}
 
+	/**
+	 * Renders the validation settings admin page.
+	 */
 	public function render(): void {
 		// Critical styles are inlined rather than shipped in the bundled
 		// stylesheet so they apply before it loads, avoiding a layout shift on
@@ -66,6 +83,11 @@ final class Admin_Pages {
 		echo '<div id="accessibility-lab-validation-settings"></div>';
 	}
 
+	/**
+	 * Enqueues the scripts and styles for the validation settings admin page.
+	 *
+	 * @param string $hook_suffix The current admin page hook suffix.
+	 */
 	public function enqueue( string $hook_suffix ): void {
 		if ( '' === $this->page_hook || $hook_suffix !== $this->page_hook ) {
 			return;
@@ -113,12 +135,14 @@ final class Admin_Pages {
 	}
 
 	/**
+	 * Returns the human-readable titles for all registered block types.
+	 *
 	 * @return array<string, string> Block type name -> human title.
 	 */
 	private function get_block_titles(): array {
 		$out = array();
 		foreach ( WP_Block_Type_Registry::get_instance()->get_all_registered() as $name => $block_type ) {
-			$title = isset( $block_type->title ) ? (string) $block_type->title : '';
+			$title = (string) $block_type->title;
 			if ( '' !== $title ) {
 				$out[ (string) $name ] = $title;
 			}
@@ -127,6 +151,8 @@ final class Admin_Pages {
 	}
 
 	/**
+	 * Returns the human-readable labels for all registered post types.
+	 *
 	 * @return array<string, string> Post type name -> singular label.
 	 */
 	private function get_post_type_labels(): array {
