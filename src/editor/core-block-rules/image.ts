@@ -15,7 +15,12 @@ function stripHtml( html: string ): string {
 addFilter(
 	'editor.validateBlock',
 	'accessibility-lab-core-blocks/image',
-	( isValid: boolean, blockType: string, attributes: Record< string, unknown >, checkName: string ) => {
+	(
+		isValid: boolean,
+		blockType: string,
+		attributes: Record< string, unknown >,
+		checkName: string
+	) => {
 		if ( blockType !== 'core/image' ) {
 			return isValid;
 		}

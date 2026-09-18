@@ -18,10 +18,22 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		settings: path.resolve( __dirname, 'src/settings/index.tsx' ),
-		'validation-framework': path.resolve( __dirname, 'src/editor/framework/index.ts' ),
-		'core-block-rules': path.resolve( __dirname, 'src/editor/core-block-rules/index.ts' ),
-		'validation-settings': path.resolve( __dirname, 'src/validation-settings/index.tsx' ),
-		'media-view-config': path.resolve( __dirname, 'src/media-view-config/index.ts' ),
+		'validation-framework': path.resolve(
+			__dirname,
+			'src/editor/framework/index.ts'
+		),
+		'core-block-rules': path.resolve(
+			__dirname,
+			'src/editor/core-block-rules/index.ts'
+		),
+		'validation-settings': path.resolve(
+			__dirname,
+			'src/validation-settings/index.tsx'
+		),
+		'media-view-config': path.resolve(
+			__dirname,
+			'src/media-view-config/index.ts'
+		),
 	},
 	output: {
 		...defaultConfig.output,
