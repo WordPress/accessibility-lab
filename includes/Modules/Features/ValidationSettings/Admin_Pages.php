@@ -142,7 +142,7 @@ final class Admin_Pages {
 	private function get_block_titles(): array {
 		$out = array();
 		foreach ( WP_Block_Type_Registry::get_instance()->get_all_registered() as $name => $block_type ) {
-			$title = isset( $block_type->title ) ? (string) $block_type->title : '';
+			$title = (string) $block_type->title;
 			if ( '' !== $title ) {
 				$out[ (string) $name ] = $title;
 			}

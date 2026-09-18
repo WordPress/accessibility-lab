@@ -23,10 +23,17 @@ use WP_REST_Server;
 final class Rest_Controller extends WP_REST_Controller {
 
 	/**
+	 * Route namespace. Narrowed from the parent's `string` because
+	 * register_rest_route() requires a non-falsy namespace.
+	 *
+	 * @var non-falsy-string
+	 */
+	protected $namespace = 'accessibility-lab/v1';
+
+	/**
 	 * Constructor for the REST controller.
 	 */
 	public function __construct() {
-		$this->namespace = 'accessibility-lab/v1';
 		$this->rest_base = 'validation-settings';
 	}
 
