@@ -19,7 +19,7 @@ npx lint-staged --no-stash || {
   red 'Linting failed. Commit aborted.'
   rule
   printf '\n'
-#   exit 1
+  exit 1
 }
 
 # 2. PHPStan runs project-wide — it needs whole-codebase context, so it can't
