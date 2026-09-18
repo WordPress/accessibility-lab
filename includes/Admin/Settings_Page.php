@@ -9,21 +9,9 @@ declare( strict_types = 1 );
 
 namespace AccessibilityLab\Admin;
 
-use AccessibilityLab\Registry;
-
-/**
- * Admin settings page class.
- */
 final class Settings_Page {
 
 	private const SLUG = 'accessibility-lab';
-
-	/**
-	 * Constructor.
-	 *
-	 * @param Registry $registry The registry instance.
-	 */
-	public function __construct( private readonly Registry $registry ) {}
 
 	/**
 	 * Registers the admin settings page hooks.
