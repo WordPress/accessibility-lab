@@ -15,17 +15,31 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
 
+/**
+ * REST controller for managing Accessibility Lab modules.
+ */
 final class Modules_Controller {
 
-	private const NS   = 'accessibility-lab/v1';
-	private const CAP  = 'manage_options';
+	private const NS  = 'accessibility-lab/v1';
+	private const CAP = 'manage_options';
 
+	/**
+	 * Constructor.
+	 *
+	 * @param Registry $registry The registry instance.
+	 */
 	public function __construct( private readonly Registry $registry ) {}
 
+	/**
+	 * Registers the REST API routes for the modules controller.
+	 */
 	public function register(): void {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 	}
 
+	/**
+	 * Registers the REST API routes for the modules endpoint.
+	 */
 	public function register_routes(): void {
 		register_rest_route(
 			self::NS,
@@ -51,6 +65,11 @@ final class Modules_Controller {
 		);
 	}
 
+	/**
+	 * Checks if the current user has permission to manage Accessibility Lab.
+	 *
+	 * @return bool|WP_Error
+	 */
 	public function permissions(): bool|WP_Error {
 		if ( ! current_user_can( self::CAP ) ) {
 			return new WP_Error(
@@ -62,10 +81,21 @@ final class Modules_Controller {
 		return true;
 	}
 
+	/**
+	 * Retrieves the modules for the modules endpoint.
+	 *
+	 * @return WP_REST_Response
+	 */
 	public function get_modules(): WP_REST_Response {
 		return rest_ensure_response( $this->payload() );
 	}
 
+	/**
+	 * Updates the settings for the modules endpoint.
+	 *
+	 * @param WP_REST_Request $request The REST request containing the module settings.
+	 * @return WP_REST_Response
+	 */
 	public function update_settings( WP_REST_Request $request ): WP_REST_Response {
 		$incoming = (array) $request->get_param( 'settings' );
 		$clean    = array();
@@ -76,7 +106,11 @@ final class Modules_Controller {
 		return rest_ensure_response( $this->payload() );
 	}
 
-	/** @return array<string, mixed> */
+	/**
+	 * Returns the payload for the modules endpoint.
+	 *
+	 * @return array<string, mixed>
+	 */
 	private function payload(): array {
 		$settings = $this->registry->settings();
 		$modules  = array();

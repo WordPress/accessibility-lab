@@ -11,17 +11,31 @@ namespace AccessibilityLab\Admin;
 
 use AccessibilityLab\Registry;
 
+/**
+ * Admin settings page class.
+ */
 final class Settings_Page {
 
 	private const SLUG = 'accessibility-lab';
 
+	/**
+	 * Constructor.
+	 *
+	 * @param Registry $registry The registry instance.
+	 */
 	public function __construct( private readonly Registry $registry ) {}
 
+	/**
+	 * Registers the admin settings page hooks.
+	 */
 	public function register(): void {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 	}
 
+	/**
+	 * Adds the admin menu item for the settings page.
+	 */
 	public function add_menu(): void {
 		add_options_page(
 			__( 'Accessibility Lab', 'accessibility-lab' ),
@@ -32,6 +46,9 @@ final class Settings_Page {
 		);
 	}
 
+	/**
+	 * Renders the admin settings page.
+	 */
 	public function render(): void {
 		// The React app renders the full page (title + description) using
 		// the `Page` component from @wordpress/admin-ui, so we only need a
@@ -39,6 +56,11 @@ final class Settings_Page {
 		echo '<div id="accessibility-lab-settings"></div>';
 	}
 
+	/**
+	 * Enqueues the admin settings page scripts and styles.
+	 *
+	 * @param string $hook The current admin page hook.
+	 */
 	public function enqueue( string $hook ): void {
 		if ( 'settings_page_' . self::SLUG !== $hook ) {
 			return;
