@@ -355,12 +355,12 @@ function SettingsApp(): JSX.Element {
 								// translators: %s: Module name.
 								__( '%s enabled.', 'accessibility-lab' ),
 								label
-							)
+						  )
 						: sprintf(
 								// translators: %s: Module name.
 								__( '%s disabled.', 'accessibility-lab' ),
 								label
-							),
+						  ),
 					{ type: 'snackbar' }
 				);
 			} catch {
