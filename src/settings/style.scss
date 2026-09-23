@@ -261,13 +261,13 @@ body.settings_page_accessibility-lab {
 	white-space: nowrap;
 
 	// Experiment — amber tint, signals "may change".
-	&--experiment {
+	&-experiment {
 		background: #fef3c7;
 		color: #78350f;
 	}
 
 	// Core Track — WordPress blue tint, signals "upstream direction".
-	&--core-track {
+	&-core-track {
 		background: #dbeafe;
 		color: #1e3a8a;
 	}

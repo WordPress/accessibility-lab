@@ -104,7 +104,7 @@ function Badge( {
 } ): JSX.Element {
 	return (
 		<span
-			className={ `accessibility-lab-badge accessibility-lab-badge--${ kind }` }
+			className={ `accessibility-lab-badge accessibility-lab-badge-${ kind }` }
 		>
 			{ label }
 		</span>
@@ -221,7 +221,7 @@ function Toolbar(): JSX.Element {
 				<span className="accessibility-lab-toolbar-icon">
 					<UniversalAccessIcon />
 				</span>
-				<div className="accessibility-lab-toolbar__text">
+				<div className="accessibility-lab-toolbar-text">
 					<h1 className="accessibility-lab-toolbar-heading">
 						{ __( 'Accessibility Lab', 'accessibility-lab' ) }
 					</h1>
