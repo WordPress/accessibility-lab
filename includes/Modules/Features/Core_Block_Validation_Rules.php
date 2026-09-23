@@ -9,7 +9,7 @@
  * duplication check, non-descriptive alt patterns, gallery inheritance,
  * required post/page title).
  *
- * Silently no-ops if the framework module isn't active.
+ * Silently no-ops if the Block Validation Framework module isn't active.
  *
  * @package AccessibilityLab
  */
@@ -25,48 +25,57 @@ use AccessibilityLab\Track;
 
 /**
  * Core Block Validation Rules module.
+ *
+ * Presented to users as "Core block accessibility rules". Accessibility is the
+ * subject these rules test; validation is the mechanism they run on — the Block
+ * Validation Framework is the general mechanism, and this module is one
+ * consumer of it.
+ *
+ * The class name and the `core_block_validation_rules` id are deliberately left
+ * as they are: the id is persisted in the `accessibility_lab_settings` option,
+ * so renaming it would reset the module's toggle on existing installs.
  */
 final class Core_Block_Validation_Rules extends Abstract_Module {
 
 	private const NS = 'accessibility-lab-core-blocks';
 
 	/**
-	 * Returns the ID for the core block validation rules module.
+	 * Returns the ID for the core block accessibility rules module.
 	 */
 	public function id(): string {
 		return 'core_block_validation_rules';
 	}
 
 	/**
-	 * Returns the bucket for the core block validation rules module.
+	 * Returns the bucket for the core block accessibility rules module.
 	 */
 	public function bucket(): string {
 		return Bucket::FEATURE;
 	}
 
 	/**
-	 * Returns the track for the core block validation rules module.
+	 * Returns the track for the core block accessibility rules module.
 	 */
 	public function track(): string {
 		return Track::PRACTICAL;
 	}
 
 	/**
-	 * Returns the name for the core block validation rules module.
+	 * Returns the name for the core block accessibility rules module.
 	 */
 	public function name(): string {
 		return __( 'Core block accessibility rules', 'accessibility-lab' );
 	}
 
 	/**
-	 * Returns the description for the core block validation rules module.
+	 * Returns the description for the core block accessibility rules module.
 	 */
 	public function description(): string {
 		return __( 'WCAG-oriented validation checks for the image, button, table, heading, and gallery core blocks, plus required post/page titles. Requires the Block Validation Framework module.', 'accessibility-lab' );
 	}
 
 	/**
-	 * Returns the credits for the core block validation rules module.
+	 * Returns the credits for the core block accessibility rules module.
 	 */
 	public function credits(): Credits {
 		return new Credits(
@@ -78,7 +87,7 @@ final class Core_Block_Validation_Rules extends Abstract_Module {
 	}
 
 	/**
-	 * Boots the core block validation rules module.
+	 * Boots the core block accessibility rules module.
 	 */
 	public function boot(): void {
 		add_action( 'init', array( $this, 'register_checks' ) );
@@ -86,7 +95,7 @@ final class Core_Block_Validation_Rules extends Abstract_Module {
 	}
 
 	/**
-	 * Enqueues editor assets for the core block validation rules.
+	 * Enqueues editor assets for the core block accessibility rules.
 	 */
 	public function enqueue_editor_assets(): void {
 		$asset_file = ACCESSIBILITY_LAB_DIR . '/build/core-block-rules.asset.php';
