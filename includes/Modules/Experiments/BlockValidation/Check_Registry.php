@@ -71,7 +71,7 @@ final class Check_Registry {
 	 * namespace and its checks are both registered on `init` and callers
 	 * can't be expected to order the two.
 	 *
-	 * @param array<string, mixed> $check Normalised check record.
+	 * @param array<string, mixed> $check Normalized check record.
 	 * @return string Explicit `plugin_title`, else the namespace label, else the raw slug.
 	 */
 	public function resolve_plugin_title( array $check ): string {
@@ -92,7 +92,7 @@ final class Check_Registry {
 	 * @param array<string, mixed> $args       Check definition.
 	 */
 	public function register_block( string $block_type, array $args ): void {
-		$check               = $this->normalise( $args, self::SCOPE_BLOCK );
+		$check               = $this->normalize( $args, self::SCOPE_BLOCK );
 		$check['block_type'] = $block_type;
 
 		$this->checks[ self::SCOPE_BLOCK ][] = $check;
@@ -105,7 +105,7 @@ final class Check_Registry {
 	 * @param array<string, mixed> $args      Check definition (must include `meta_key`).
 	 */
 	public function register_meta( string $post_type, array $args ): void {
-		$check              = $this->normalise( $args, self::SCOPE_META );
+		$check              = $this->normalize( $args, self::SCOPE_META );
 		$check['post_type'] = $post_type;
 		// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- array key in a check definition, not a query arg.
 		$check['meta_key'] = isset( $args['meta_key'] ) ? (string) $args['meta_key'] : '';
@@ -120,7 +120,7 @@ final class Check_Registry {
 	 * @param array<string, mixed> $args      Check definition.
 	 */
 	public function register_editor( string $post_type, array $args ): void {
-		$check              = $this->normalise( $args, self::SCOPE_EDITOR );
+		$check              = $this->normalize( $args, self::SCOPE_EDITOR );
 		$check['post_type'] = $post_type;
 
 		$this->checks[ self::SCOPE_EDITOR ][] = $check;
@@ -183,7 +183,7 @@ final class Check_Registry {
 	/**
 	 * Apply the `validation_api_check_level` filter to a check's declared level.
 	 *
-	 * @param array<string, mixed> $check Normalised check record.
+	 * @param array<string, mixed> $check Normalized check record.
 	 * @return string The resolved level, e.g. 'error' or 'warning'.
 	 */
 	public function resolve_level( array $check ): string {
@@ -209,9 +209,9 @@ final class Check_Registry {
 	 *
 	 * @param array<string, mixed> $args  Raw check definition from the caller.
 	 * @param string               $scope One of the SCOPE_* constants.
-	 * @return array<string, mixed> Normalised check record.
+	 * @return array<string, mixed> Normalized check record.
 	 */
-	private function normalise( array $args, string $scope ): array {
+	private function normalize( array $args, string $scope ): array {
 		$name = isset( $args['name'] ) ? (string) $args['name'] : '';
 
 		// `name` is a slug used for keys and filters; `title` is what admins

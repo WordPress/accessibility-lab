@@ -35,9 +35,9 @@ final class Check_Key {
 	private const SEP = '__';
 
 	/**
-	 * Key for a normalised registry record.
+	 * Key for a normalized registry record.
 	 *
-	 * @param array<string, mixed> $check Normalised check record.
+	 * @param array<string, mixed> $check Normalized check record.
 	 * @return string The check's canonical key.
 	 */
 	public static function from_check( array $check ): string {
