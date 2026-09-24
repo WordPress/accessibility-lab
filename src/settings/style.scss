@@ -9,17 +9,59 @@
 
 // Take over the admin content area for a full white background. Scoped to
 // our screen only.
+// stylelint-disable-next-line selector-class-pattern -- WP-generated admin
+// body class (`{$screen}_page_{$slug}`), not ours to rename.
 body.settings_page_accessibility-lab {
+
 	#wpcontent,
 	#wpbody-content {
 		padding-inline: 0;
 	}
+
 	#wpbody-content {
 		background: #fff;
 		padding-block-end: 40px;
 	}
+
 	.wrap {
 		margin: 0;
+	}
+
+	// ─── Snackbars ──────────────────────────────────────────────────────────
+	// Match the AI plugin: pin the snackbar list to the bottom-left of the
+	// viewport, offset just past the admin sidebar so it doesn't disappear
+	// behind the menu. The list stays fixed to the viewport, so it remains
+	// visible regardless of scroll position (up to the auto-dismiss timeout).
+	.components-snackbar-list {
+		position: fixed;
+		inset-block-end: 20px;
+		inset-inline-start: 176px; // WP admin sidebar (~160px) + 16px gutter.
+		inset-inline-end: auto;
+		width: auto;
+		max-width: min( 480px, calc( 100vw - 200px ) );
+		padding: 0;
+	}
+
+	// Folded admin sidebar drops width to 36px.
+	&.folded .components-snackbar-list {
+		inset-inline-start: 52px;
+		max-width: min( 480px, calc( 100vw - 72px ) );
+	}
+
+	@media screen and (max-width: 960px) {
+
+		.components-snackbar-list {
+			inset-inline-start: 52px;
+			max-width: min( 480px, calc( 100vw - 72px ) );
+		}
+	}
+
+	@media screen and (max-width: 782px) {
+
+		.components-snackbar-list {
+			inset-inline-start: 16px;
+			max-width: calc( 100vw - 32px );
+		}
 	}
 }
 
@@ -31,7 +73,6 @@ body.settings_page_accessibility-lab {
 }
 
 // ─── Toolbar ─────────────────────────────────────────────────────────────
-//
 // Sticky to the top of the viewport so the title, description, and
 // action links stay visible while scrolling — matches the AI plugin.
 
@@ -58,13 +99,13 @@ body.settings_page_accessibility-lab {
 	}
 }
 
-.accessibility-lab-toolbar__title {
+.accessibility-lab-toolbar-title {
 	display: flex;
 	align-items: flex-start;
 	gap: 12px;
 }
 
-.accessibility-lab-toolbar__icon {
+.accessibility-lab-toolbar-icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -81,7 +122,7 @@ body.settings_page_accessibility-lab {
 	}
 }
 
-.accessibility-lab-toolbar__heading {
+.accessibility-lab-toolbar-heading {
 	margin: 0;
 	font-size: 20px;
 	font-weight: 500;
@@ -89,7 +130,7 @@ body.settings_page_accessibility-lab {
 	color: #1e1e1e;
 }
 
-.accessibility-lab-toolbar__description {
+.accessibility-lab-toolbar-description {
 	margin: 4px 0 0;
 	color: #50575e;
 	font-size: 13px;
@@ -97,7 +138,7 @@ body.settings_page_accessibility-lab {
 	max-width: 60ch;
 }
 
-.accessibility-lab-toolbar__actions {
+.accessibility-lab-toolbar-actions {
 	display: flex;
 	align-items: center;
 	gap: 4px;
@@ -105,7 +146,7 @@ body.settings_page_accessibility-lab {
 }
 
 // ─── Content column ─────────────────────────────────────────────────────
-.accessibility-lab-page__inner {
+.accessibility-lab-page-inner {
 	box-sizing: border-box;
 	width: 100%;
 	max-width: 820px;
@@ -126,7 +167,6 @@ body.settings_page_accessibility-lab {
 }
 
 // ─── Card + rows ────────────────────────────────────────────────────────
-//
 // A card is the outer bordered container. Each row inside is a module
 // toggle. When a card has multiple rows (parent + dependents), rows are
 // separated by a hairline; dependents get a slight indent so the
@@ -147,7 +187,7 @@ body.settings_page_accessibility-lab {
 .accessibility-lab-row {
 	padding: 20px 24px;
 
-	& + .accessibility-lab-row {
+	+ .accessibility-lab-row {
 		border-block-start: 1px solid #f0f0f0;
 	}
 
@@ -166,12 +206,14 @@ body.settings_page_accessibility-lab {
 		margin-block-end: 0;
 	}
 
+	// stylelint-disable-next-line selector-class-pattern -- @wordpress/components class, not ours to rename.
 	.components-toggle-control__label {
 		font-size: 14px;
 		font-weight: 500;
 		color: #1e1e1e;
 	}
 
+	// stylelint-disable-next-line selector-class-pattern -- @wordpress/components class, not ours to rename.
 	.components-base-control__help {
 		margin-block-start: 4px;
 		color: #50575e;
@@ -180,18 +222,18 @@ body.settings_page_accessibility-lab {
 	}
 }
 
-.accessibility-lab-row__label {
+.accessibility-lab-row-label {
 	display: inline-flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 8px;
 }
 
-.accessibility-lab-row__name {
+.accessibility-lab-row-name {
 	color: inherit;
 }
 
-.accessibility-lab-row__credit {
+.accessibility-lab-row-credit {
 	margin: 8px 0 0 62px;
 	color: #757575;
 	font-size: 12px;
@@ -219,53 +261,14 @@ body.settings_page_accessibility-lab {
 	white-space: nowrap;
 
 	// Experiment — amber tint, signals "may change".
-	&--experiment {
+	&-experiment {
 		background: #fef3c7;
 		color: #78350f;
 	}
 
 	// Core Track — WordPress blue tint, signals "upstream direction".
-	&--core-track {
+	&-core-track {
 		background: #dbeafe;
 		color: #1e3a8a;
-	}
-}
-
-// ─── Snackbars ──────────────────────────────────────────────────────────
-//
-// Match the AI plugin: pin the snackbar list to the bottom-left of the
-// viewport, offset just past the admin sidebar so it doesn't disappear
-// behind the menu. The list stays fixed to the viewport, so it remains
-// visible regardless of scroll position (up to the auto-dismiss timeout).
-
-body.settings_page_accessibility-lab {
-	.components-snackbar-list {
-		position: fixed;
-		inset-block-end: 20px;
-		inset-inline-start: 176px; // WP admin sidebar (~160px) + 16px gutter.
-		inset-inline-end: auto;
-		width: auto;
-		max-width: min( 480px, calc( 100vw - 200px ) );
-		padding: 0;
-	}
-
-	// Folded admin sidebar drops width to 36px.
-	&.folded .components-snackbar-list {
-		inset-inline-start: 52px;
-		max-width: min( 480px, calc( 100vw - 72px ) );
-	}
-
-	@media screen and (max-width: 960px) {
-		.components-snackbar-list {
-			inset-inline-start: 52px;
-			max-width: min( 480px, calc( 100vw - 72px ) );
-		}
-	}
-
-	@media screen and (max-width: 782px) {
-		.components-snackbar-list {
-			inset-inline-start: 16px;
-			max-width: calc( 100vw - 32px );
-		}
 	}
 }

@@ -20,16 +20,28 @@ namespace AccessibilityLab\Abstracts;
 use AccessibilityLab\Credits;
 use AccessibilityLab\Track;
 
+/**
+ * Abstract base class for Accessibility Lab modules.
+ */
 abstract class Abstract_Module {
 
+	/**
+	 * Returns the unique identifier for the module.
+	 *
+	 * @return string
+	 */
 	abstract public function id(): string;
 
 	/**
+	 * Returns the bucket of the module.
+	 *
 	 * @return string Bucket::FEATURE or Bucket::EXPERIMENT.
 	 */
 	abstract public function bucket(): string;
 
 	/**
+	 * Returns the track of the module.
+	 *
 	 * @return string Track::CORE_TRACK or Track::PRACTICAL.
 	 *
 	 * Default: PRACTICAL. Override in modules whose reason for existing is
@@ -39,14 +51,34 @@ abstract class Abstract_Module {
 		return Track::PRACTICAL;
 	}
 
+	/**
+	 * Returns the name of the module.
+	 *
+	 * @return string
+	 */
 	abstract public function name(): string;
 
+	/**
+	 * Returns the description for the module.
+	 *
+	 * @return string
+	 */
 	abstract public function description(): string;
 
+	/**
+	 * Indicates whether the module is enabled by default.
+	 *
+	 * @return bool
+	 */
 	public function default_enabled(): bool {
 		return false;
 	}
 
+	/**
+	 * Returns the credits for the module, if any.
+	 *
+	 * @return Credits|null
+	 */
 	public function credits(): ?Credits {
 		return null;
 	}
