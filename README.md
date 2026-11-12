@@ -20,13 +20,21 @@ Either bucket can live on either track. Credits are optional metadata any module
 
 | Module | Bucket | Track | Adopted from |
 |---|---|---|---|
-| Media Library: disable infinite scroll by default | Feature | Practical | WordPress core |
-| Heading-order validation | Experiment | TBD | — |
+| Media Library: add view options | Feature | Practical | WordPress core |
 | Block Validation Framework | Experiment | Core-track | validation-api (Troy Chaplin) |
 | Core block accessibility rules | Feature | Practical | validation-api-core-blocks (Troy Chaplin) |
 | Validation settings | Feature | Practical | validation-api-settings (Troy Chaplin) |
 
 ## Block validation subsystem
+
+### Terminology
+
+Two words do a lot of work in this subsystem, so to be precise: **validation** names the mechanism, **accessibility** names the subject a particular rule set tests.
+
+- **Block Validation Framework** — the Experiment module that provides the mechanism. It is a named subsystem, so it takes title case; the other module labels are descriptive and use sentence case.
+- **Validation API** — the developer-facing interface that framework exposes: the `validation_api_register_*()` functions, the `editor.validateBlock` / `editor.validateMeta` / `editor.validateEditor` JS filters, the `validation_api_check_level` filter, and `GET /wp-validation/v1/checks`. This is why the code prefix is `validation_api_`.
+- **Validation check** — a single registered rule, whatever its subject.
+- **Core block accessibility rules** — one consumer of the framework: WCAG-oriented checks for core blocks. Accessibility is what they test; validation is how they run.
 
 Three of the first-party modules compose into a full block-editor validation subsystem:
 

@@ -12,6 +12,8 @@ function stripHtml( html: string ): string {
  * Minimal URL sanity check. A full Public Suffix List (PSL) integration is
  * planned as a follow-up — for now we accept any parseable http(s), mailto:,
  * tel:, or root-relative URL.
+ *
+ * @param raw URL as entered in the block's link control.
  */
 function isPlausibleUrl( raw: string ): boolean {
 	const value = raw.trim();
@@ -38,7 +40,12 @@ function isPlausibleUrl( raw: string ): boolean {
 addFilter(
 	'editor.validateBlock',
 	'accessibility-lab-core-blocks/button',
-	( isValid: boolean, blockType: string, attributes: Record< string, unknown >, checkName: string ) => {
+	(
+		isValid: boolean,
+		blockType: string,
+		attributes: Record< string, unknown >,
+		checkName: string
+	) => {
 		if ( blockType !== 'core/button' ) {
 			return isValid;
 		}
