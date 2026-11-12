@@ -1,6 +1,6 @@
 <?php
 /**
- * Global registration functions for the block-validation framework.
+ * Global registration functions for the Block Validation Framework module.
  *
  * Third-party plugins call these on `init`. They resolve to the module's
  * Check_Registry instance held by the framework module. Defined only when

@@ -25,11 +25,16 @@ use AccessibilityLab\Abstracts\Abstract_Module;
 use AccessibilityLab\Bucket;
 use AccessibilityLab\Credits;
 
+/**
+ * Class Media_Library_View_Config
+ *
+ * Handles the media library view configuration feature.
+ */
 final class Media_Library_View_Config extends Abstract_Module {
 
 	// Reuse core's per-user infinite-scroll option so our popover and
 	// core's profile-screen field stay in sync in both directions.
-	private const OPT_INFINITE = 'infinite_scrolling';
+	private const OPT_INFINITE  = 'infinite_scrolling';
 	private const OPT_DENSITY   = 'accessibility_lab_media_thumbnail_density';
 	private const OPT_PER_PAGE  = 'accessibility_lab_media_items_per_page';
 	private const OPT_FILENAMES = 'accessibility_lab_media_show_filenames';
@@ -37,23 +42,38 @@ final class Media_Library_View_Config extends Abstract_Module {
 	private const DENSITY_VALUES  = array( 'compact', 'comfortable', 'spacious' );
 	private const PER_PAGE_VALUES = array( 40, 80, 160 );
 
+	/**
+	 * Returns the ID of the module.
+	 */
 	public function id(): string {
 		return 'media_library_view_config';
 	}
 
+	/**
+	 * Returns the bucket for the module.
+	 */
 	public function bucket(): string {
 		return Bucket::FEATURE;
 	}
 
+	/**
+	 * Returns the name of the module.
+	 */
 	public function name(): string {
 		return __( 'Media Library: add view options', 'accessibility-lab' );
 	}
 
+	/**
+	 * Returns the description for the module.
+	 */
 	public function description(): string {
 		return __( 'Adds a view-config button to the Media Library modal and grid, exposing infinite scroll, thumbnail density, and items-per-page controls in context. Preferences persist per user.', 'accessibility-lab' );
 	}
 
-	public function credits(): ?Credits {
+	/**
+	 * Returns the credits for the module.
+	 */
+	public function credits(): Credits {
 		return new Credits(
 			author: 'WordPress core / Trac #65775',
 			source_plugin_slug: 'wordpress-core',
@@ -62,6 +82,9 @@ final class Media_Library_View_Config extends Abstract_Module {
 		);
 	}
 
+	/**
+	 * Boots the module, registering necessary hooks.
+	 */
 	public function boot(): void {
 		// Single enqueue hook — detect context from the current screen
 		// inside the callback so the modal (post edit) and grid (upload.php)
@@ -78,10 +101,16 @@ final class Media_Library_View_Config extends Abstract_Module {
 		add_filter( 'media_library_infinite_scrolling', '__return_false', PHP_INT_MAX );
 	}
 
+	/**
+	 * Handles the module being disabled.
+	 */
 	public function on_disable(): void {
 		// Preferences persist so re-enabling the module restores each user's choices.
 	}
 
+	/**
+	 * Handles the module's uninstallation logic.
+	 */
 	public function on_uninstall(): void {
 		// Do NOT delete `infinite_scrolling` — that's core's user meta key,
 		// shared with the profile-screen field.
@@ -90,6 +119,11 @@ final class Media_Library_View_Config extends Abstract_Module {
 		delete_metadata( 'user', 0, self::OPT_FILENAMES, '', true );
 	}
 
+	/**
+	 * Enqueues the media library view configuration assets.
+	 *
+	 * @param string $hook The current admin page hook suffix.
+	 */
 	public function enqueue_assets( string $hook ): void {
 		// upload.php is the standalone Media Library grid; anywhere else
 		// that renders a media modal (post/page editors, widgets, etc.)
@@ -118,6 +152,11 @@ final class Media_Library_View_Config extends Abstract_Module {
 		);
 	}
 
+	/**
+	 * Enqueues the media library view configuration assets for the given context.
+	 *
+	 * @param string $context The context in which the media library view is being rendered.
+	 */
 	private function enqueue_view_config( string $context ): void {
 		$asset_file = ACCESSIBILITY_LAB_DIR . '/build/media-view-config.asset.php';
 		if ( ! file_exists( $asset_file ) ) {
@@ -161,6 +200,9 @@ final class Media_Library_View_Config extends Abstract_Module {
 	}
 
 	/**
+	 * Returns the localized data for the media library view configuration.
+	 *
+	 * @param string $context The context in which the media library view is being rendered.
 	 * @return array<string, mixed>
 	 */
 	private function localized_data( string $context ): array {
@@ -172,38 +214,38 @@ final class Media_Library_View_Config extends Abstract_Module {
 		$filenames_pref = $user_id ? get_user_meta( $user_id, self::OPT_FILENAMES, true ) : '';
 
 		return array(
-			'context'                   => $context,
-			'nonce'                     => wp_create_nonce( 'accessibility_lab_media_view_config' ),
-			'ajaxUrl'                   => admin_url( 'admin-ajax.php' ),
+			'context'                    => $context,
+			'nonce'                      => wp_create_nonce( 'accessibility_lab_media_view_config' ),
+			'ajaxUrl'                    => admin_url( 'admin-ajax.php' ),
 			'canToggleInfiniteScrolling' => $this->can_toggle_infinite_scrolling(),
-			'infiniteScrolling'         => '1' === $infinite_pref,
-			'density'                   => in_array( $density_pref, self::DENSITY_VALUES, true )
+			'infiniteScrolling'          => '1' === $infinite_pref,
+			'density'                    => in_array( $density_pref, self::DENSITY_VALUES, true )
 				? $density_pref
 				: 'comfortable',
-			'itemsPerPage'              => in_array( $per_page_pref, self::PER_PAGE_VALUES, true )
+			'itemsPerPage'               => in_array( $per_page_pref, self::PER_PAGE_VALUES, true )
 				? $per_page_pref
 				: 80,
 			// Filenames default to off: matches core's default of showing them
 			// only on hover/selection. Turning this on exposes them always,
 			// which helps low-vision users and reduces mouse-only interactions.
-			'showFilenames'             => '1' === $filenames_pref,
-			'densityOptions'            => self::DENSITY_VALUES,
-			'perPageOptions'            => self::PER_PAGE_VALUES,
-			'i18n'                      => array(
-				'buttonLabel'            => __( 'View options', 'accessibility-lab' ),
-				'popoverTitle'           => __( 'View options', 'accessibility-lab' ),
-				'infiniteScrolling'      => __( 'Infinite scrolling', 'accessibility-lab' ),
-				'density'                => __( 'Thumbnail density', 'accessibility-lab' ),
-				'itemsPerPage'           => __( 'Items per page', 'accessibility-lab' ),
-				'showFilenames'          => __( 'Always show file names', 'accessibility-lab' ),
-				'showFilenamesDescription' => __( 'Show file names under every thumbnail instead of only on hover.', 'accessibility-lab' ),
-				'densityCompact'         => __( 'Compact', 'accessibility-lab' ),
-				'densityComfortable'     => __( 'Comfortable', 'accessibility-lab' ),
-				'densitySpacious'        => __( 'Spacious', 'accessibility-lab' ),
-				'preferenceSaved'         => __( 'Preference saved.', 'accessibility-lab' ),
-				'preferenceSaveFailed'    => __( 'Could not save preference.', 'accessibility-lab' ),
+			'showFilenames'              => '1' === $filenames_pref,
+			'densityOptions'             => self::DENSITY_VALUES,
+			'perPageOptions'             => self::PER_PAGE_VALUES,
+			'i18n'                       => array(
+				'buttonLabel'               => __( 'View options', 'accessibility-lab' ),
+				'popoverTitle'              => __( 'View options', 'accessibility-lab' ),
+				'infiniteScrolling'         => __( 'Infinite scrolling', 'accessibility-lab' ),
+				'density'                   => __( 'Thumbnail density', 'accessibility-lab' ),
+				'itemsPerPage'              => __( 'Items per page', 'accessibility-lab' ),
+				'showFilenames'             => __( 'Always show file names', 'accessibility-lab' ),
+				'showFilenamesDescription'  => __( 'Show file names under every thumbnail instead of only on hover.', 'accessibility-lab' ),
+				'densityCompact'            => __( 'Compact', 'accessibility-lab' ),
+				'densityComfortable'        => __( 'Comfortable', 'accessibility-lab' ),
+				'densitySpacious'           => __( 'Spacious', 'accessibility-lab' ),
+				'preferenceSaved'           => __( 'Preference saved.', 'accessibility-lab' ),
+				'preferenceSaveFailed'      => __( 'Could not save preference.', 'accessibility-lab' ),
 				'preferenceAppliesOnReopen' => __( 'Preference saved. Applies next time you open the media library.', 'accessibility-lab' ),
-				'nextOpenHint'            => __( 'Applies next time you open the media library.', 'accessibility-lab' ),
+				'nextOpenHint'              => __( 'Applies next time you open the media library.', 'accessibility-lab' ),
 			),
 		);
 	}
@@ -219,6 +261,9 @@ final class Media_Library_View_Config extends Abstract_Module {
 		return get_current_user_id() > 0;
 	}
 
+	/**
+	 * Handles the AJAX request to save a media library view preference.
+	 */
 	public function ajax_save_pref(): void {
 		check_ajax_referer( 'accessibility_lab_media_view_config', 'nonce' );
 
@@ -235,7 +280,7 @@ final class Media_Library_View_Config extends Abstract_Module {
 		}
 
 		$key   = isset( $_POST['key'] ) ? sanitize_key( wp_unslash( $_POST['key'] ) ) : '';
-		$value = isset( $_POST['value'] ) ? wp_unslash( $_POST['value'] ) : '';
+		$value = isset( $_POST['value'] ) ? sanitize_text_field( wp_unslash( $_POST['value'] ) ) : '';
 
 		switch ( $key ) {
 			case 'infinite_scrolling':
@@ -268,5 +313,4 @@ final class Media_Library_View_Config extends Abstract_Module {
 
 		wp_send_json_success();
 	}
-
 }
