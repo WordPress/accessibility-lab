@@ -103,9 +103,7 @@ function Badge( {
 	label: string;
 } ): JSX.Element {
 	return (
-		<span
-			className={ `accessibility-lab-badge accessibility-lab-badge-${ kind }` }
-		>
+		<span className={ `accessibility-lab-badge is-${ kind }` }>
 			{ label }
 		</span>
 	);
