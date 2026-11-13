@@ -16,20 +16,42 @@ use AccessibilityLab\Modules\Features\Media_Library_View_Config;
 use AccessibilityLab\Modules\Features\Validation_Settings;
 use AccessibilityLab\REST\Modules_Controller;
 
+/**
+ * Main plugin class.
+ */
 final class Plugin {
 
+	/**
+	 * The singleton instance of the plugin.
+	 *
+	 * @var Plugin|null
+	 */
 	private static ?Plugin $instance = null;
 
+	/**
+	 * The registry instance.
+	 *
+	 * @var Registry The registry instance.
+	 */
 	public readonly Registry $registry;
 
+	/**
+	 * Returns the singleton instance of the plugin.
+	 */
 	public static function instance(): self {
 		return self::$instance ??= new self();
 	}
 
+	/**
+	 * Constructor.
+	 */
 	private function __construct() {
 		$this->registry = new Registry();
 	}
 
+	/**
+	 * Boots the plugin.
+	 */
 	public function boot(): void {
 		$this->register_first_party_modules();
 		$this->registry->set_dependencies(
@@ -48,7 +70,7 @@ final class Plugin {
 
 		$this->registry->boot_enabled();
 
-		( new Settings_Page( $this->registry ) )->register();
+		( new Settings_Page() )->register();
 		( new Modules_Controller( $this->registry ) )->register();
 
 		// Register the modules-settings option with core so it's visible
@@ -58,6 +80,9 @@ final class Plugin {
 		add_action( 'init', array( $this, 'register_option' ) );
 	}
 
+	/**
+	 * Registers the plugin option with WordPress.
+	 */
 	public function register_option(): void {
 		register_setting(
 			'accessibility_lab',
@@ -81,6 +106,9 @@ final class Plugin {
 		);
 	}
 
+	/**
+	 * Registers the first-party modules with the registry.
+	 */
 	private function register_first_party_modules(): void {
 		$this->registry->register( new Media_Library_View_Config() );
 		$this->registry->register( new Block_Validation_Framework() );
