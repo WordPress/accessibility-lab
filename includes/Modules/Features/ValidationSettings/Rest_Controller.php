@@ -17,17 +17,36 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
 
+/**
+ * REST controller for validation settings.
+ */
 final class Rest_Controller extends WP_REST_Controller {
 
+	/**
+	 * Route namespace. Narrowed from the parent's `string` because
+	 * register_rest_route() requires a non-falsy namespace.
+	 *
+	 * @var non-falsy-string
+	 */
+	protected $namespace = 'accessibility-lab/v1';
+
+	/**
+	 * Constructor for the REST controller.
+	 */
 	public function __construct() {
-		$this->namespace = 'accessibility-lab/v1';
 		$this->rest_base = 'validation-settings';
 	}
 
+	/**
+	 * Registers the REST API routes for validation settings.
+	 */
 	public function register(): void {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 	}
 
+	/**
+	 * Registers the REST API routes for validation settings.
+	 */
 	public function register_routes(): void {
 		register_rest_route(
 			$this->namespace,
@@ -56,7 +75,9 @@ final class Rest_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * @param WP_REST_Request $request
+	 * Checks if the current user has permission to read validation settings.
+	 *
+	 * @param WP_REST_Request $request The incoming request.
 	 * @return true|WP_Error
 	 */
 	public function get_items_permissions_check( $request ) {
@@ -64,7 +85,9 @@ final class Rest_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * @param WP_REST_Request $request
+	 * Checks if the current user has permission to update validation settings.
+	 *
+	 * @param WP_REST_Request $request The incoming request.
 	 * @return true|WP_Error
 	 */
 	public function update_items_permissions_check( $request ) {
@@ -72,7 +95,10 @@ final class Rest_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * @param WP_REST_Request $request
+	 * Retrieves the current validation settings overrides.
+	 *
+	 * @param WP_REST_Request $request The incoming request.
+	 * @return WP_REST_Response The response containing the current overrides.
 	 */
 	public function get_items( $request ): WP_REST_Response {
 		return rest_ensure_response( array( 'overrides' => (object) $this->stored() ) );
@@ -81,7 +107,8 @@ final class Rest_Controller extends WP_REST_Controller {
 	/**
 	 * Replaces the whole override map.
 	 *
-	 * @param WP_REST_Request $request
+	 * @param WP_REST_Request $request The incoming request containing the overrides to update.
+	 * @return WP_REST_Response The response containing the updated overrides.
 	 */
 	public function update_items( $request ): WP_REST_Response {
 		$clean = $this->sanitize_overrides( (array) $request->get_param( 'overrides' ) );
@@ -92,6 +119,8 @@ final class Rest_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Returns the JSON schema for the validation settings item.
+	 *
 	 * @return array<string, mixed>
 	 */
 	public function get_item_schema(): array {
@@ -120,6 +149,8 @@ final class Rest_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Checks if the current user has permission to manage validation settings.
+	 *
 	 * @return true|WP_Error
 	 */
 	private function permissions_check() {
@@ -134,6 +165,8 @@ final class Rest_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Returns the stored overrides from the database.
+	 *
 	 * @return array<string, string>
 	 */
 	private function stored(): array {
@@ -146,7 +179,7 @@ final class Rest_Controller extends WP_REST_Controller {
 	 * registered as configurable. This both rejects junk and prunes keys left
 	 * behind by checks that have since been removed or renamed.
 	 *
-	 * @param array<string, mixed> $incoming
+	 * @param array<string, mixed> $incoming The incoming overrides to sanitize.
 	 * @return array<string, string>
 	 */
 	private function sanitize_overrides( array $incoming ): array {

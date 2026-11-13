@@ -1,6 +1,6 @@
 <?php
 /**
- * REST introspection for the block-validation framework.
+ * REST introspection for the Block Validation Framework module.
  *
  * @package AccessibilityLab
  */
