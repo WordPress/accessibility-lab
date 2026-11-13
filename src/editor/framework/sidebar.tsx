@@ -26,9 +26,7 @@ function IssueRow( { issue }: { issue: Issue } ): JSX.Element {
 	};
 	const icon = issue.severity === 'error' ? close : caution;
 	return (
-		<li
-			className={ `validation-issue validation-issue-${ issue.severity }` }
-		>
+		<li className={ `validation-issue is-${ issue.severity }` }>
 			<Button
 				variant="tertiary"
 				onClick={ onClick }

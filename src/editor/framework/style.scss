@@ -48,11 +48,11 @@
 			font-family: monospace;
 		}
 
-		&-error .validation-issue-button svg {
+		&.is-error .validation-issue-button svg {
 			fill: #cc1818;
 		}
 
-		&-warning .validation-issue-button svg {
+		&.is-warning .validation-issue-button svg {
 			fill: #dba617;
 		}
 	}

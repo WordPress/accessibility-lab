@@ -32,7 +32,7 @@ export function useMetaField( metaKey: string ): MetaFieldProps {
 				? 'error'
 				: 'warning';
 			return {
-				className: `validation-api-meta-field validation-api-meta-field--${ worst }`,
+				className: `validation-api-meta-field is-${ worst }`,
 				help: relevant.map( ( i ) => i.message ).join( ' ' ),
 			};
 		},
