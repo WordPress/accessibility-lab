@@ -40,27 +40,33 @@
         "*.php": "vendor/bin/phpcs"
     },
     "devDependencies": {
-        "@wordpress/env": "^11.13.0",
-        "@wordpress/scripts": "32.6.0",
-        "@wordpress/stylelint-config": "^24.1.0",
-        "lint-staged": "^17.3.0",
+        "@wordpress/env": "^12.1.0",
+        "@wordpress/scripts": "37.1.0",
+        "@wordpress/stylelint-config": "^27.1.0",
+        "lint-staged": "^17.6.0",
         "npm-run-all": "^4.1.5"
     },
     "dependencies": {
-        "@base-ui/react": "1.7.0",
-        "@wordpress/admin-ui": "2.6.0",
-        "@wordpress/api-fetch": "7.44.0",
-        "@wordpress/block-editor": "^16.1.0",
-        "@wordpress/components": "32.6.0",
-        "@wordpress/data": "10.44.0",
-        "@wordpress/dataviews": "18.0.0",
-        "@wordpress/editor": "^14.52.0",
-        "@wordpress/element": "6.44.0",
-        "@wordpress/hooks": "^4.52.0",
-        "@wordpress/i18n": "6.17.0",
-        "@wordpress/icons": "^15.3.0",
-        "@wordpress/notices": "5.44.0",
-        "@wordpress/plugins": "^7.52.0",
-        "@wordpress/theme": "1.2.0"
+        "@base-ui/react": "1.9.0",
+        "@wordpress/admin-ui": "3.1.0",
+        "@wordpress/api-fetch": "8.1.0",
+        "@wordpress/block-editor": "^20.0.0",
+        "@wordpress/components": "44.0.0",
+        "@wordpress/data": "11.1.0",
+        "@wordpress/dataviews": "22.0.0",
+        "@wordpress/editor": "^16.1.0",
+        "@wordpress/element": "10.1.0",
+        "@wordpress/hooks": "^5.1.0",
+        "@wordpress/i18n": "7.1.0",
+        "@wordpress/icons": "^20.0.0",
+        "@wordpress/notices": "6.1.0",
+        "@wordpress/plugins": "^8.1.0",
+        "@wordpress/theme": "4.0.0"
+    },
+    "allowScripts": {
+        "core-js-pure@3.51.0": true,
+        "core-js@3.51.0": true,
+        "fs-ext-extra-prebuilt@2.2.17": true,
+        "@parcel/watcher@2.6.0": true
     }
 }
